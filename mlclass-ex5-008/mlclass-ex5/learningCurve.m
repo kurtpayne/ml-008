@@ -14,18 +14,36 @@ function [error_train, error_val] = ...
 %   datasets, you might want to do this in larger intervals.
 %
 
-size(X)
-size(y)
-size(Xval)
-size(yval)
-size(lambda)
-
 % Number of training examples
 m = size(X, 1);
 
 % You need to return these values correctly
 error_train = zeros(m, 1);
 error_val   = zeros(m, 1);
+
+% Loop through each training example
+for i = 1:m
+  for j = 1:50
+
+    % Break off a training set
+    rand_indces = randperm(m, i); 
+    X_sub = X(rand_indces, :);
+    y_sub = y(rand_indces);
+    
+    % Train against the training set
+    [theta] = trainLinearReg(X_sub, y_sub, lambda);
+
+    % Compute jtrain and jcv
+    [J_train, grad_train] = linearRegCostFunction(X_sub, y_sub, theta, 0);
+    [J_cv, grad_cv] = linearRegCostFunction(Xval, yval, theta, 0);
+    
+    error_train(i) =  error_val(i) + J_train;
+    error_val(i)   =  error_val(i) + J_cv;
+  end
+end
+
+error_train  = error_train / 10;
+error_val    = error_val   / 10;
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return training errors in 
