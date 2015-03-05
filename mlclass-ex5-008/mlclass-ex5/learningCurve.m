@@ -14,6 +14,12 @@ function [error_train, error_val] = ...
 %   datasets, you might want to do this in larger intervals.
 %
 
+size(X)
+size(y)
+size(Xval)
+size(yval)
+size(lambda)
+
 % Number of training examples
 m = size(X, 1);
 
