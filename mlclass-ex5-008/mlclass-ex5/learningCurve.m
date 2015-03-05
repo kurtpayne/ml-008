@@ -23,27 +23,12 @@ error_val   = zeros(m, 1);
 
 % Loop through each training example
 for i = 1:m
-  for j = 1:50
-
-    % Break off a training set
-    rand_indces = randperm(m, i); 
-    X_sub = X(rand_indces, :);
-    y_sub = y(rand_indces);
-    
-    % Train against the training set
-    [theta] = trainLinearReg(X_sub, y_sub, lambda);
-
-    % Compute jtrain and jcv
-    [J_train, grad_train] = linearRegCostFunction(X_sub, y_sub, theta, 0);
-    [J_cv, grad_cv] = linearRegCostFunction(Xval, yval, theta, 0);
-    
-    error_train(i) =  error_val(i) + J_train;
-    error_val(i)   =  error_val(i) + J_cv;
-  end
+	subsetX=X(1:i,:); 
+	subsetY=y(1:i);
+	theta=trainLinearReg(subsetX,subsetY,lambda);
+	error_train(i)=linearRegCostFunction(subsetX,subsetY,theta,0);
+	error_val(i)=linearRegCostFunction(Xval,yval,theta,0);
 end
-
-error_train  = error_train / 10;
-error_val    = error_val   / 10;
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return training errors in 
