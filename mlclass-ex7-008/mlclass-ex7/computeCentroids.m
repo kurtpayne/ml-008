@@ -26,12 +26,16 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-
-
-
-
-
-
+for i = 1:K
+    data = X(idx == i, :);
+    
+    % if data contains only one row
+    if size(data, 1) == 1
+      centroids(i, :) = data;
+    else
+      centroids(i, :) = mean(data);
+    endif
+endfor
 
 % =============================================================
 
